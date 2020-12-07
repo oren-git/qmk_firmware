@@ -133,7 +133,7 @@ else
         # This ensures that the EEPROM page buffer fits into RAM
         USE_PROCESS_STACKSIZE = 0x600
         USE_EXCEPTIONS_STACKSIZE = 0x300
-        
+
         SRC += $(PLATFORM_COMMON_DIR)/eeprom_stm32.c
         SRC += $(PLATFORM_COMMON_DIR)/flash_stm32.c
         OPT_DEFS += -DEEPROM_EMU_STM32F042x6
@@ -249,6 +249,10 @@ endif
 
     ifeq ($(strip $(RGB_MATRIX_CUSTOM_USER)), yes)
         OPT_DEFS += -DRGB_MATRIX_CUSTOM_USER
+    endif
+
+    ifeq ($(strip $(RGB_MATRIX_WITH_LIGHT)), yes)
+        OPT_DEFS += -DRGB_MATRIX_WITH_LIGHT
     endif
 endif
 

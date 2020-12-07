@@ -141,7 +141,12 @@ const rgb_matrix_driver_t rgb_matrix_driver = {
 #    endif
 
 // LED color buffer
+#if defined(WS2812) && defined(RGBLIGHT_ENABLE) && defined(RGB_MATRIX_WITH_LIGHT)
+#pragma message "Enable RGBLIGHT and RGB Matrix using WS2812 at the same time."
+LED_TYPE *rgb_matrix_ws2812_array = led;
+#else
 LED_TYPE rgb_matrix_ws2812_array[DRIVER_LED_TOTAL];
+#endif
 
 static void init(void) {}
 
@@ -161,7 +166,7 @@ static inline void setled(int i, uint8_t r, uint8_t g, uint8_t b) {
 }
 
 static void setled_all(uint8_t r, uint8_t g, uint8_t b) {
-    for (int i = 0; i < sizeof(rgb_matrix_ws2812_array) / sizeof(rgb_matrix_ws2812_array[0]); i++) {
+    for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
         setled(i, r, g, b);
     }
 }
