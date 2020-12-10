@@ -1,14 +1,8 @@
 # MCU name
 MCU = atmega32u4
 
-F_CPU = 16000000
-ARCH = AVR8
-OPT_DEFS += -DINTERRUPT_CONTROL_ENDPOINT
 # Bootloader selection
 BOOTLOADER = atmel-dfu
-
-# Boot Section Size in *bytes*
-OPT_DEFS += -DBOOTLOADER_SIZE=4096
 
 # Build Options
 #   change yes to no to disable
@@ -26,5 +20,10 @@ BACKLIGHT_ENABLE = no       # Enable keyboard backlight functionality
 RGBLIGHT_ENABLE = yes        # Enable keyboard RGB underglow
 BLUETOOTH_ENABLE = no       # Enable Bluetooth
 AUDIO_ENABLE = no           # Audio output
+RGBLIGHT_CUSTOM_DRIVER = yes
+RGB_MATRIX_ENABLE = yes
+RGB_MATRIX_DRIVER = WS2812
+RGB_MATRIX_WITH_LIGHT = yes
+
 
 EXTRAFLAGS += -flto

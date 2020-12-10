@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "msw.h"
+#include "hacking_msw.h"
 #ifdef RGB_MATRIX_ENABLE
 void matrix_init_kb(void) {
     // put your keyboard start-up code here

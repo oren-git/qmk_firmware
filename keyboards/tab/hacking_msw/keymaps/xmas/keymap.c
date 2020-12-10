@@ -14,8 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include QMK_KEYBOARD_H
-#include "process_rgb.h"
-#include "rgb.h"
+
 extern rgblight_config_t rgblight_config;
 extern rgb_config_t rgb_matrix_config;
 // Defines names for use in layer keycodes and the keymap
@@ -172,11 +171,18 @@ void rgblight_set(void) {
         sethsv(170, 255, rgblight_config.val, (LED_TYPE *)&led[73]);
         // setrgb(RGB_BLUE, (LED_TYPE *)&led[73]);
     }
-    if (layer_state)
-    {
+    // bool layer_flag = 0;
+    // for (size_t i = 1; i < 7; i++) {
+    //     if (layer_state_is(i)) {
+    //         flag = 1;
+    //     }
+    // }
+    // if (layer_flag) {
+    //     sethsv(191, 255, rgblight_config.val, (LED_TYPE *)&led[64]);
+    // }
+    if (layer_state) {
         sethsv(191, 255, rgblight_config.val, (LED_TYPE *)&led[64]);
     }
-
     // for (int32_t i = 0; i < 4; i++) {
     //     if(layer_state_is(i+1)) {
     //         sethsv(HSV_PURPLE, (LED_TYPE *)&led[61 + i]);

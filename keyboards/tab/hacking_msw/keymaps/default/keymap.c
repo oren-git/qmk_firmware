@@ -14,8 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include QMK_KEYBOARD_H
-#include "process_rgb.h"
-#include "rgb.h"
+
 extern rgblight_config_t rgblight_config;
 extern rgb_config_t rgb_matrix_config;
 // Defines names for use in layer keycodes and the keymap
@@ -78,7 +77,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             case MAT_MOD:
                 rgb_matrix_step();
                 return false;
-            case MAT_VAI://����������ӣ�����ر�״̬����
+            case MAT_VAI:
                 if (rgb_matrix_config.enable)
                 {
                     rgb_matrix_increase_val();
@@ -86,7 +85,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     rgb_matrix_enable();
                 }
                 return false;
-            case MAT_VAD://������Ƚ��ͣ��������Ϊ0����ر�
+            case MAT_VAD:
                 if (rgb_matrix_config.enable)
                 {
                     rgb_matrix_decrease_val();
@@ -172,8 +171,16 @@ void rgblight_set(void) {
         sethsv(170, 255, rgblight_config.val, (LED_TYPE *)&led[73]);
         // setrgb(RGB_BLUE, (LED_TYPE *)&led[73]);
     }
-    if (layer_state)
-    {
+    // bool layer_flag = 0;
+    // for (size_t i = 1; i < 7; i++) {
+    //     if (layer_state_is(i)) {
+    //         flag = 1;
+    //     }
+    // }
+    // if (layer_flag) {
+    //     sethsv(191, 255, rgblight_config.val, (LED_TYPE *)&led[64]);
+    // }
+    if (layer_state) {
         sethsv(191, 255, rgblight_config.val, (LED_TYPE *)&led[64]);
     }
 
