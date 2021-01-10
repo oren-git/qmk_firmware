@@ -14,6 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include QMK_KEYBOARD_H
+#include "timer.h"
 
 extern rgblight_config_t rgblight_config;
 extern rgb_config_t rgb_matrix_config;
@@ -32,7 +33,7 @@ enum custom_keycodes {
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    /*
+    //c*
     [_BASE] = KEYMAP(
         //1      2        3        4       5        6        7        8        9        10       11       12       13       14       15
         KC_ESC,  KC_1,    KC_2,    KC_3,   KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSLS, KC_GRV,
@@ -117,6 +118,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     return true;
 }
+uint8_t mode;
+bool matrix_is_enabled;
+uint16_t timer_buffer;
+
 void keyboard_post_init_user(void) {
   // Customise these values to desired behaviour
   #ifdef CONSOLE_ENABLE
@@ -129,13 +134,27 @@ void keyboard_post_init_user(void) {
   //debug_keyboard=true;
   //debug_mouse=true;
 //   rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_REACTIVE_SIMPLE);
-  bool matrix_is_enabled = rgb_matrix_is_enabled();
-//   uint8_t mode = rgb_matrix_get_mode();
+  matrix_is_enabled = rgb_matrix_is_enabled();
+  mode = rgb_matrix_get_mode();
+  timer_buffer = timer_read();
   if (!matrix_is_enabled)
   {
       rgb_matrix_enable_noeeprom();
   }
   rgb_matrix_mode_noeeprom(12);
+}
+
+void matrix_scan_user()
+{
+    if (timer_buffer > 0 && timer_elapsed(timer_buffer) > 3000)
+    {
+        timer_buffer = 0;
+        if (!matrix_is_enabled)
+        {
+            rgb_matrix_disable_noeeprom();
+        }
+        rgb_matrix_mode_noeeprom(mode);
+    }
 }
 
 // void rgb_matrix_indicators_kb(void) {
