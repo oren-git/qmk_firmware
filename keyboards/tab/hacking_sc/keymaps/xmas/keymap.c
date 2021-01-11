@@ -2,6 +2,7 @@
  * default HHKB Layout
  */
 #include QMK_KEYBOARD_H
+#include "timer.h"
 
 #define BASE 0
 #define HHKB 1
@@ -61,6 +62,34 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 void keyboard_pre_init_user(void)
 {
     rgblight_config.val = 125;
+}
+
+uint8_t mode;
+bool rgblight_enabled;
+uint16_t timer_buffer;
+
+void keyboard_post_init_user(void) {
+  rgblight_enabled = rgblight_is_enabled();
+  mode = rgblight_get_mode();
+  timer_buffer = timer_read();
+  if (!rgblight_enabled)
+  {
+      rgblight_enable_noeeprom();
+  }
+  rgblight_mode_noeeprom(2);
+}
+
+void matrix_scan_user()
+{
+    if (timer_buffer > 0 && timer_elapsed(timer_buffer) > 3000)
+    {
+        timer_buffer = 0;
+        if (!rgblight_enabled)
+        {
+            rgblight_disable_noeeprom();
+        }
+        rgblight_mode_noeeprom(mode);
+    }
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
