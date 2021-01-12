@@ -76,7 +76,7 @@ void keyboard_post_init_user(void) {
   {
       rgblight_enable_noeeprom();
   }
-  rgblight_mode_noeeprom(2);
+  rgblight_mode_noeeprom(21);
 }
 
 void matrix_scan_user()

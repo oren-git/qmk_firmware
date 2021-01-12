@@ -141,7 +141,7 @@ void keyboard_post_init_user(void) {
   {
       rgb_matrix_enable_noeeprom();
   }
-  rgb_matrix_mode_noeeprom(12);
+  rgb_matrix_mode_noeeprom(16);
 }
 
 void matrix_scan_user()

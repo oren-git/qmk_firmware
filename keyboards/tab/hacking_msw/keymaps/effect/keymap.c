@@ -33,7 +33,7 @@ enum custom_keycodes {
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    //c*
+    /*
     [_BASE] = KEYMAP(
         //1      2        3        4       5        6        7        8        9        10       11       12       13       14       15
         KC_ESC,  KC_1,    KC_2,    KC_3,   KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSLS, KC_GRV,
@@ -55,7 +55,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_ESC,  KC_1,    KC_2,    KC_3,   KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSLS, KC_GRV,
         KC_TAB,  KC_Q,    KC_W,    KC_E,   KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSPC,
         KC_LCTL, KC_A,    KC_S,    KC_D,   KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, KC_ENT,
-        KC_LSFT, KC_Z,    KC_X,    KC_C,   KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  EEP_RST, RESET,   MO(_FN),
+        KC_LSFT, KC_Z,    KC_X,    KC_C,   KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, MAT_MOD,  RGB_MOD, RESET,   MO(_FN),
         KC_CAPS, KC_LALT, KC_LGUI, KC_SPC, KC_RGUI, KC_RALT
     ),
     [_FN] = KEYMAP(
@@ -118,7 +118,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     return true;
 }
-uint16_t timer_buffer;
+// uint16_t timer_buffer;
 
 void keyboard_post_init_user(void) {
   // Customise these values to desired behaviour
@@ -132,42 +132,42 @@ void keyboard_post_init_user(void) {
   //debug_keyboard=true;
   //debug_mouse=true;
 //   rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_REACTIVE_SIMPLE);
-  timer_buffer = timer_read();
+//   timer_buffer = timer_read();
   rgb_matrix_enable_noeeprom();
   rgb_matrix_mode_noeeprom(0);
   rgblight_enable_noeeprom();
   rgblight_mode_noeeprom(0);
 }
 
-void matrix_scan_user()
-{
-    if (timer_buffer > 0 && timer_elapsed(timer_buffer) > 10000)
-    {
-        uint8_t matrix_mode = rgb_matrix_get_mode();
-        uint8_t rgblight_mode = rgblight_get_mode();
+// void matrix_scan_user()
+// {
+//     if (timer_buffer > 0 && timer_elapsed(timer_buffer) > 10000)
+//     {
+//         uint8_t matrix_mode = rgb_matrix_get_mode();
+//         uint8_t rgblight_mode = rgblight_get_mode();
 
-        if (matrix_mode > 0)
-        {
-            rgb_matrix_step_noeeprom();
-        } else {
-            rgb_matrix_disable_noeeprom();
-        }
+//         if (matrix_mode > 0)
+//         {
+//             rgb_matrix_step_noeeprom();
+//         } else {
+//             rgb_matrix_disable_noeeprom();
+//         }
 
-        if (rgblight_mode > 0)
-        {
-            rgblight_step_noeeprom();
-        } else {
-            rgblight_disable_noeeprom();
-        }
+//         if (rgblight_mode > 0)
+//         {
+//             rgblight_step_noeeprom();
+//         } else {
+//             rgblight_disable_noeeprom();
+//         }
 
-        if (rgblight_mode == 0 && matrix_mode == 0)
-        {
-            timer_buffer = 0;
-        } else {
-            timer_buffer = timer_read();
-        }
-    }
-}
+//         if (rgblight_mode == 0 && matrix_mode == 0)
+//         {
+//             timer_buffer = 0;
+//         } else {
+//             timer_buffer = timer_read();
+//         }
+//     }
+// }
 
 // void rgb_matrix_indicators_kb(void) {
 //     rgb_matrix_set_color(3, 0, 0, 255);
