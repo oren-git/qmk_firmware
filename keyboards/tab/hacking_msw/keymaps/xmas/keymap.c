@@ -130,7 +130,7 @@ void keyboard_post_init_user(void) {
   debug_matrix=true;
   #endif
   #ifdef RGBLIGHT_ENABLE
-  rgblight_set_effect_range(61, 13);
+  rgblight_set_effect_range(61, 20);
   #endif
   //debug_keyboard=true;
   //debug_mouse=true;
