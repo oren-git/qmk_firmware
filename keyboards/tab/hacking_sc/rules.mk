@@ -41,8 +41,6 @@ SRC = ../../hhkb/ansi/matrix.c
 # debug-off: OPT_DEFS := $(filter-out -DCONSOLE_ENABLE,$(OPT_DEFS))
 # debug-off: all
 
-LAYOUTS = 60_hhkb
-
 RGBLIGHT_ENABLE = yes
 RGBLIGHT_CUSTOM_DRIVER = yes
 WS2812_DRIVER_REQUIRED = yes

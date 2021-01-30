@@ -19,5 +19,3 @@
     { K60, K61, K62, K63, K64, K65, K66, KC_NO },                              \
     { K70, K71, K72, K73, K74, K75, K76, KC_NO }                               \
 }
-
-#define LAYOUT_60_hhkb LAYOUT
