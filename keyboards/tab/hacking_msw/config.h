@@ -193,6 +193,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* Bootmagic Lite key configuration */
 //#define BOOTMAGIC_LITE_ROW 0
 //#define BOOTMAGIC_LITE_COLUMN 0
-#ifndef RGBLED_NUM
 #define RGBLED_NUM 74
-#endif
