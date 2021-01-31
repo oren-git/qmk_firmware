@@ -70,12 +70,14 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
                     rgb_matrix_toggle();
                     return false;
                 }
+                return true;
             case KC_R:
                 if (layer_state_is(1))
                 {
                     rgb_matrix_step();
                     return false;
                 }
+                return true;
             case KC_T:
                 if (layer_state_is(1))
                 {
@@ -87,7 +89,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
                     }
                     return false;
                 }
-
+                return true;
             case KC_Y:
                 if (layer_state_is(1)) {
                     if (rgb_matrix_config.enable)
@@ -100,6 +102,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
                     }
                     return false;
                 }
+                return true;
             case RGB_VAI:
                 if (rgblight_config.enable)
                 {
