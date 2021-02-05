@@ -26,14 +26,33 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "util.h"
 #include "timer.h"
 #include "matrix.h"
-#include "hhkb_avr.h"
 #include <avr/wdt.h>
 #include "suspend.h"
 #include "lufa.h"
 
+static inline void KEY_ENABLE(void) { (PORTB &= ~(1<<6)); }
+static inline void KEY_UNABLE(void) { (PORTB |=  (1<<6)); }
+static inline bool KEY_STATE(void) { return (PIND & (1<<7)); }
+static inline void KEY_PREV_ON(void) { (PORTB |=  (1<<7)); }
+static inline void KEY_PREV_OFF(void) { (PORTB &= ~(1<<7)); }
 
-// matrix power saving
-#define MATRIX_POWER_SAVE       10000
+static inline void KEY_INIT(void)
+{
+    /* row,col,prev: output */
+    DDRB  = 0xFF;
+    PORTB = 0x40;   // unable
+    /* key: input with pull-up */
+    DDRD  &= ~0x80;
+    PORTD |=  0x80;
+
+    KEY_UNABLE();
+    KEY_PREV_OFF();
+}
+static inline void KEY_SELECT(uint8_t ROW, uint8_t COL)
+{
+    PORTB = (PORTB & 0xC0) | (((COL) & 0x07)<<3) | ((ROW) & 0x07);
+}
+
 static uint32_t matrix_last_modified = 0;
 
 // matrix state buffer(1:on, 0:off)
@@ -89,8 +108,6 @@ uint8_t matrix_scan(void)
     matrix_prev = matrix;
     matrix = tmp;
 
-    // power on
-    if (!KEY_POWER_STATE()) KEY_POWER_ON();
     for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
         for (uint8_t col = 0; col < MATRIX_COLS; col++) {
             KEY_SELECT(row, col);
@@ -148,14 +165,6 @@ uint8_t matrix_scan(void)
         }
         if (matrix[row] ^ matrix_prev[row]) matrix_last_modified = timer_read32();
     }
-    // power off
-    if (KEY_POWER_STATE() &&
-            (USB_DeviceState == DEVICE_STATE_Suspended ||
-             USB_DeviceState == DEVICE_STATE_Unattached ) &&
-            timer_elapsed32(matrix_last_modified) > MATRIX_POWER_SAVE) {
-        KEY_POWER_OFF();
-        suspend_power_down();
-    }
 
     matrix_scan_quantum();
 
@@ -203,11 +212,4 @@ uint8_t matrix_key_count(void) {
         count += bitpop16(matrix_get_row(r));
     }
     return count;
-}
-
-void matrix_power_up(void) {
-    KEY_POWER_ON();
-}
-void matrix_power_down(void) {
-    KEY_POWER_OFF();
 }

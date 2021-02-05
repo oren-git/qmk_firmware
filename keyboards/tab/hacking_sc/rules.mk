@@ -32,7 +32,7 @@ CUSTOM_MATRIX = yes    # Custom matrix file for the HHKB
 # make hhkb-keymap-dfu HHKB_RN42_ENABLE=yes
 
 # project specific files
-SRC = ../../hhkb/ansi/matrix.c
+SRC = matrix.c
 
 # debug-on: EXTRAFLAGS += -DDEBUG -DDEBUG_ACTION
 # debug-on: all
